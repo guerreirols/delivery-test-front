@@ -1,6 +1,6 @@
 import { Button } from "../../../shared/ui/Button";
 import { Field } from "../../../shared/ui/Field";
-import { formatMoney, parsePrice } from "../services/money";
+import { formatMoney, formatPriceInput, parsePrice } from "../services/money";
 
 import type { DraftItem } from "../types/order";
 
@@ -71,12 +71,13 @@ export function OrderItemsFields({
               />
               <Field
                 label="Preço unitário (R$)"
-                inputMode="decimal"
+                inputMode="numeric"
                 value={item.price}
-                onChange={(event) =>
-                  onChange(item.id, "price", event.target.value)
-                }
-                placeholder="0,00"
+                onChange={(event) => {
+                  const formatted = formatPriceInput(event.target.value);
+                  if (formatted !== null) onChange(item.id, "price", formatted);
+                }}
+                placeholder="R$ 0,00"
                 required
                 error={errors[`items[${index}].unitPrice`]}
               />
@@ -105,3 +106,4 @@ export function OrderItemsFields({
     </section>
   );
 }
+

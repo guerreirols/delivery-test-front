@@ -58,18 +58,30 @@ describe("Create order", () => {
       screen.getByRole("button", { name: "Remover item 1" }),
     ).toBeDisabled();
   });
-  it("rejects more than two decimals instead of silently rounding", async () => {
+  it("formats typed cents, supports deletion and clearing, and pastes BRL amounts", async () => {
+    render(<CreateOrderForm onCreated={vi.fn()} onCancel={vi.fn()} />);
+    const user = userEvent.setup();
+    const price = screen.getByLabelText("Preço unitário (R$)");
+    await user.type(price, "1");
+    expect(price).toHaveValue("R$\u00a00,01");
+    await user.type(price, "250");
+    expect(price).toHaveValue("R$\u00a012,50");
+    await user.keyboard("{Backspace}");
+    expect(price).toHaveValue("R$\u00a01,25");
+    await user.clear(price);
+    expect(price).toHaveValue("");
+    await user.paste("R$ 1.234,56");
+    expect(price).toHaveValue("R$\u00a01.234,56");
+    expect(screen.getAllByText(/R\$.*1\.234,56/)).toHaveLength(2);
+  });
+  it("rejects a zero amount instead of sending an invalid price", async () => {
     const create = vi.spyOn(orders, "createOrder").mockResolvedValue(order);
     render(<CreateOrderForm onCreated={vi.fn()} onCancel={vi.fn()} />);
     const user = await fillOrder();
     await user.clear(screen.getByLabelText("Preço unitário (R$)"));
-    await user.type(screen.getByLabelText("Preço unitário (R$)"), "12,345");
+    await user.type(screen.getByLabelText("Preço unitário (R$)"), "0");
     await user.click(screen.getByRole("button", { name: /^Criar pedido/ }));
-    expect(
-      await screen.findByText(
-        "Informe um valor positivo com até duas casas decimais.",
-      ),
-    ).toBeVisible();
+    expect(await screen.findByText("Informe um valor positivo com até duas casas decimais.")).toBeVisible();
     expect(create).not.toHaveBeenCalled();
   });
   it("preserves fields and associates indexed backend errors", async () => {
@@ -111,3 +123,4 @@ describe("Create order", () => {
     expect(create).toHaveBeenCalledTimes(1);
   });
 });
+
