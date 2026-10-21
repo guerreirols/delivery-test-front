@@ -5,7 +5,7 @@ description: Organizar funcionalidades React, limites de dependência e estado d
 
 # Arquitetura do frontend
 
-Leia AGENTS.md, package.json e o fluxo existente. O ponto de partida é um template React com TypeScript e Vite; não trate as convenções como módulos já implementados.
+Leia AGENTS.md, package.json e o fluxo existente. A aplicação React com TypeScript e Vite já separa composição em app, autenticação e pedidos em features e infraestrutura e UI genéricas em shared. Preserve os limites existentes.
 
 - Organize por funcionalidade com subpastas por responsabilidade quando necessárias: pages, components, hooks, services e types. Não replique entidades e repositories JPA no frontend.
 - Reserve app para composição global, providers e navegação. Uma página compõe a experiência de uma rota; um componente apresenta uma responsabilidade; um hook coordena estado/comportamento; um serviço traduz a integração HTTP.

@@ -5,10 +5,10 @@ description: Criar testes de comportamento e validar entregas React com verifica
 
 # Qualidade e testes do frontend
 
-Leia AGENTS.md, package.json e a configuração de testes vigente. No estado inicial existem lint e build, mas não há runner nem script de testes. Não confunda compilação com execução de testes.
+Leia AGENTS.md, package.json e a configuração de testes vigente. A suíte existente utiliza Vitest, React Testing Library, jest-dom e user-event com jsdom; npm test executa uma vez e npm run test:watch acompanha alterações. Não confunda compilação com execução de testes.
 
 - Toda nova feature ou correção com alteração de comportamento deve incluir testes novos ou atualizados na mesma entrega. Para bug, reproduza o cenário e cubra a regressão com a expectativa correta.
-- Na primeira implementação comportamental, configure uma suíte mínima integrada ao Vite, preferencialmente Vitest, React Testing Library, jest-dom e user-event em ambiente DOM adequado. Verifique compatibilidade das versões antes de instalar e adicione scripts de execução única e watch. Não instale E2E ou ferramentas de cobertura sem necessidade da tarefa.
+- Reutilize a configuração e o setup existentes. Altere a infraestrutura somente quando houver necessidade concreta e verifique compatibilidade das versões antes de instalar dependências. Não instale E2E ou ferramentas de cobertura sem necessidade da tarefa.
 - Teste lógica pura sem renderização; componentes e fluxos interativos pelo comportamento no DOM. Prefira consultas por papel, nome acessível e label e interações por user-event. Não dependa de classes CSS ou detalhes internos de hooks.
 - Cubra sucesso, rejeição, limite, carregamento, recuperação e prevenção de submissão duplicada quando pertinentes. Verifique resultado visível e ausência de efeitos indevidos em falhas.
 - Simule a fronteira HTTP para testes de integração entre UI e serviços quando necessário; use ferramentas existentes ou uma solução justificada. Não substitua todos os hooks e componentes internos por mocks, eliminando o fluxo que deveria ser testado.

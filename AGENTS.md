@@ -21,7 +21,7 @@ Use src/app para composição global, providers e configuração de navegação;
 
 Dentro de cada funcionalidade, crie subpastas por responsabilidade apenas quando houver arquivos. Componentes específicos continuam na funcionalidade. Tipos de props usados apenas por um componente podem ficar no próprio arquivo. Shared não importa features; features não importam páginas ou detalhes internos de outras features. App compõe o conjunto.
 
-Não replique as camadas de entidades e repositories do backend no navegador. Separe renderização, coordenação de estado e acesso HTTP. A estrutura atual ainda é o template Vite; estas são convenções para sua evolução, não uma declaração de que os módulos já existem.
+Não replique as camadas de entidades e repositories do backend no navegador. Separe renderização, coordenação de estado e acesso HTTP. A aplicação já utiliza app, features/auth, features/orders e shared. Preserve esses limites ao evoluir os fluxos existentes.
 
 ## Skills locais
 
@@ -33,9 +33,9 @@ Não replique as camadas de entidades e repositories do backend no navegador. Se
 
 ## Stack e validação
 
-O estado inicial possui React, React DOM, TypeScript, Vite e ESLint, com npm e package-lock.json. Preserve o gerenciador de pacotes e consulte os arquivos de configuração para requisitos efetivos. Não assuma TypeScript strict habilitado: ao preparar a base para funcionalidades, avalie e habilite strict, corrigindo os problemas em vez de suprimi-los.
+A stack utiliza React, React DOM, TypeScript com strict habilitado, Vite e ESLint, com npm e package-lock.json. Preserve o gerenciador de pacotes e a tipagem estrita; consulte os arquivos de configuração para requisitos efetivos.
 
-Os comandos atuais são npm run dev, npm run lint, npm run build e npm run preview. Ainda não existe infraestrutura ou script de testes: na primeira implementação com comportamento, configure uma suíte mínima conforme frontend-testing e adicione os testes da feature. Não alegue testes aprovados com base apenas em build/lint.
+Os comandos disponíveis são npm run dev, npm run lint, npm run build, npm run preview, npm test e npm run test:watch. A suíte utiliza Vitest, React Testing Library, jest-dom e user-event com jsdom. Amplie os testes existentes conforme frontend-testing. Não alegue testes aprovados com base apenas em build/lint.
 
 Em mudanças executáveis, execute lint, build e os testes aplicáveis em modo de execução única. Em mudanças visuais, inspecione a interface no navegador quando disponível, com viewport pequeno e desktop. Informe o que foi validado e as limitações reais; não declare acessibilidade ou qualidade visual comprovadas apenas pelo código.
 
